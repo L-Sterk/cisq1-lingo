@@ -19,7 +19,7 @@ Scenario: Start a new Lingo game
 
 Scenario: Guessing a word
   When: I guess a word by spelling out the letters
-  Then: The correct letters stay in the right place (Red outline), the letters guessed but not on the right place will have a yellow outline
+  Then: The correct letters stay in place, the present letters will have an yellow outline
 
 Scenario Outline: Guessing a word
   Given: The <word> to guess
@@ -30,4 +30,5 @@ Scenario Outline: Guessing a word
     | word | entry | feedback
     | STERK | STAAL | CORRECT, CORRECT, NOT_PRESENT, NOT_PRESENT, NOT_PRESENT
     | STERK | STEEK | CORRECT, CORRECT, CORRECT, NOT_PRESENT, CORRECT
+    | STERK | STIER | CORRECT, CORRECT, NOT_PRESENT, IS_PRESENT, IS_PRESENT
     | STERK | STERK | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT
