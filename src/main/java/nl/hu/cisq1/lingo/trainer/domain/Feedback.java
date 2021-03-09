@@ -1,6 +1,9 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
+
+import java.security.InvalidAlgorithmParameterException;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +12,9 @@ public class Feedback {
     private List<Mark> markList;
 
     public Feedback(String attempt, List<Mark> markList) {
+        if (attempt.length() != markList.size()){
+            throw new InvalidFeedbackException(attempt.length(), markList.size());
+        }
         this.attempt = attempt;
         this.markList = markList;
     }

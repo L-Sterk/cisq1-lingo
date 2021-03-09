@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,5 +37,15 @@ class FeedbackTest {
         Feedback feedback = new Feedback(attempt, List.of(Mark.ILLEGAL,Mark.ILLEGAL,Mark.ILLEGAL,Mark.ILLEGAL,Mark.ILLEGAL));
 
         assertTrue(feedback.isWordGuessed() == Mark.ILLEGAL);
+    }
+
+    @Test
+    @DisplayName("The length of the Feedback does not match the length of the attempt")
+    void invalidFeedback(){
+        String attempt = "STERK";
+        assertThrows(
+                InvalidFeedbackException.class,
+                () -> new Feedback(attempt, List.of(Mark.CORRECT))
+        );
     }
 }
