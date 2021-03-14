@@ -4,6 +4,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import java.security.InvalidAlgorithmParameterException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Feedback {
     private List<Mark> markList;
 
     public Feedback(String attempt, List<Mark> markList) {
-        if (attempt.length() != markList.size()){
+        if (attempt.length() != markList.size()) {
             throw new InvalidFeedbackException(attempt.length(), markList.size());
         }
         this.attempt = attempt;
@@ -20,16 +21,37 @@ public class Feedback {
     }
 
     public Mark isWordGuessed() {
-        for (Mark mark : markList){
-            if (mark != Mark.CORRECT){
-                if (mark == Mark.ILLEGAL){
+        for (Mark mark : markList) {
+            if (mark != Mark.CORRECT) {
+                if (mark == Mark.ILLEGAL) {
                     return Mark.ILLEGAL;
-                }else{
-                    return Mark.WRONG;
+                } else {
+                    return Mark.ABSENT;
                 }
             }
         }
         return Mark.CORRECT;
+    }
+
+    public String giveHint(String previousHint, String wordToGuess) {
+        if (attempt.length() != markList.size()) {
+            throw new InvalidFeedbackException(attempt.length(), markList.size());
+        }
+
+        String[] splitWordToGuess = wordToGuess.split("");
+        String[] splitPreviousHint = previousHint.split("");
+
+        List<String> hintList = new ArrayList<>();
+
+        for (int i = 0; i < splitWordToGuess.length; i++) {
+            if (markList.get(i) == Mark.CORRECT) {
+                hintList.add(splitWordToGuess[i]);
+            } else {
+                hintList.add(splitPreviousHint[i]);
+            }
+        }
+
+        return String.join("", hintList);
     }
 
     @Override
