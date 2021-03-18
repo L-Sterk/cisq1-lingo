@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class Feedback {
     private String attempt;
     private List<Mark> markList;
@@ -18,6 +19,10 @@ public class Feedback {
         }
         this.attempt = attempt;
         this.markList = markList;
+    }
+
+    public List<Mark> getMarkList() {
+        return markList;
     }
 
     public Mark isWordGuessed() {
@@ -54,13 +59,11 @@ public class Feedback {
         return String.join("", hintList);
     }
 
-    @Override
-    public String toString() {
-        return "Feedback{" +
-                "attempt='" + attempt + '\'' +
-                ", markList=" + markList +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//
+//        return markList.toString();
+//    }
 
     @Override
     public boolean equals(Object o) {
