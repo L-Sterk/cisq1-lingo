@@ -17,7 +17,6 @@ public class Round {
     }
 
     public Feedback guess(String attempt){
-        Feedback feedback;
         List<Mark> markList = new ArrayList<>();
 
         // Check if attempt is legal

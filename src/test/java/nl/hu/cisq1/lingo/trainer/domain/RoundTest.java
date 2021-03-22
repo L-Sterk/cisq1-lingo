@@ -21,8 +21,4 @@ class RoundTest {
         assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), round.guess("STERK").getMarkList());
 
     }
-
-
-
-
 }
