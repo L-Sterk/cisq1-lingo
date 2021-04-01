@@ -3,14 +3,24 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
+import javax.persistence.*;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+@Entity
+@Table(name = "feedback")
 public class Feedback {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column
     private String attempt;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = Mark.class)
     private List<Mark> markList;
 
     public Feedback(String attempt, List<Mark> markList) {
@@ -19,6 +29,10 @@ public class Feedback {
         }
         this.attempt = attempt;
         this.markList = markList;
+    }
+
+    public Feedback() {
+
     }
 
     public List<Mark> getMarkList() {

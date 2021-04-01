@@ -1,18 +1,28 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "game")
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "game_id")
     private Long id;
 
+    @Column
     private int score;
-//    @OneToMany(mappedBy = "game")
-//    private List<Round> roundList = new ArrayList<>();
+
+    @Enumerated(EnumType.ORDINAL)
+    private GameState gameState = GameState.END_GAME;
+
+    @OneToMany
+    @JoinColumn() // TODO: fix later
+    private List<Round> roundList = new ArrayList<>();
 
     public Game() {
     }
@@ -25,9 +35,19 @@ public class Game {
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue
     public Long getId() {
         return id;
     }
+
+    /*
+    Method to start a new round if the game is not active
+     */
+    public void startNewRound(String wordToGuess){
+        if (gameState != GameState.IN_GAME) {
+            Round round = new Round(wordToGuess);
+            roundList.add(round);
+            gameState = GameState.IN_GAME;
+        }
+    }
+
 }

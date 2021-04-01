@@ -1,19 +1,53 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.words.domain.Word;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Round {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
+    @Column
     private int roundNumber;
+
+    @Column
     private String wordToGuess;
+
+    @Enumerated(EnumType.ORDINAL)
     private GameState gameState;
 
-    public Round(int roundNumber, String wordToGuess, GameState gameState) {
-        this.roundNumber = roundNumber;
+    @ManyToOne
+    @JoinColumn(name = "game") //TODO: fix later
+    private Game game;
+
+    public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;
-        this.gameState = gameState;
+        this.gameState = GameState.IN_GAME;
+
+    }
+
+    public Round() {
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public String getWordToGuess() {
+        return wordToGuess;
     }
 
     public Feedback guess(String attempt){
@@ -45,6 +79,7 @@ public class Round {
 
         return new Feedback(attempt, markList);
     }
+
 
 
 }
