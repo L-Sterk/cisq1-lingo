@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "feedback_id")
     private Long id;
 
     @Column

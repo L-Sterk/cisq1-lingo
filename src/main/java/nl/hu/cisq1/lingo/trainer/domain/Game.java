@@ -18,7 +18,7 @@ public class Game {
     private int score;
 
     @Enumerated(EnumType.ORDINAL)
-    private GameState gameState = GameState.END_GAME;
+    private GameState gameState = GameState.END_GAME; // Set the standard state in END_GAME
 
     @OneToMany
     @JoinColumn() // TODO: fix later
@@ -47,6 +47,8 @@ public class Game {
             Round round = new Round(wordToGuess);
             roundList.add(round);
             gameState = GameState.IN_GAME;
+        }else {
+            throw new IllegalStateException("The game is still active");
         }
     }
 
