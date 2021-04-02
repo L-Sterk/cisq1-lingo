@@ -14,6 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
 
+    static Stream<Arguments> provideHintExamples() {
+        return Stream.of(
+                Arguments.of("STERK", "STAAR", "S....", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT), "ST..."),
+                Arguments.of("STERK", "START", "ST...", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT), "ST.R."),
+                Arguments.of("STERK", "STERF", "ST.R.", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT), "STER."),
+                Arguments.of("STERK", "STERK", "STER.", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "STERK")
+        );
+    }
+
+    // --- TESTS ---
     @Test
     @DisplayName("Word is guessed if all letters are correct")
     void wordIsGuessed() {
@@ -61,15 +71,4 @@ class FeedbackTest {
 
         assertEquals(nextHint, feedback.giveHint(previousHint, wordToGuess));
     }
-
-    static Stream<Arguments> provideHintExamples() {
-        return Stream.of(
-                Arguments.of("STERK", "STAAR", "S....", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT), "ST..."),
-                Arguments.of("STERK", "START", "ST...", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT), "ST.R."),
-                Arguments.of("STERK", "STERF", "ST.R.", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT), "STER."),
-                Arguments.of("STERK", "STERK", "STER.", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "STERK")
-        );
-    }
-
-
 }

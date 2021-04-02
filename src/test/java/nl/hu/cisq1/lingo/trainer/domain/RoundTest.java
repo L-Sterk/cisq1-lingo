@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
 
+    // --- TESTS ---
+
     @Test
     @DisplayName("If all letters are correct, the word is guessed")
     void guess() {

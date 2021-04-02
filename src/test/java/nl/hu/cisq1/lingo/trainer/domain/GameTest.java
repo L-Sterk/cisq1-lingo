@@ -9,6 +9,7 @@ class GameTest {
     Game game = new Game();
     Round round = new Round("STERK");
 
+    // --- TESTS ---
     @Test
     @DisplayName("Check if a new round is started and added to the roundlist")
     void startNewRound() {
