@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.words.domain.Word;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Round {
@@ -81,6 +82,11 @@ public class Round {
         return new Feedback(attempt, markList);
     }
 
-
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Round round = (Round) o;
+        return roundNumber == round.roundNumber && Objects.equals(id, round.id) && Objects.equals(wordToGuess, round.wordToGuess) && gameState == round.gameState && Objects.equals(game, round.game);
+    }
 }

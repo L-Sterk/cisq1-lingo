@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -24,6 +25,9 @@ public class Game {
     @JoinColumn() // TODO: fix later
     private List<Round> roundList = new ArrayList<>();
 
+    @Transient
+    private List<Feedback> guesses = new ArrayList<>();
+
     public Game() {
     }
 
@@ -39,9 +43,21 @@ public class Game {
         return id;
     }
 
+    public List<Round> getRoundList() {
+        return roundList;
+    }
+
+    public List<Feedback> getGuesses() {
+        return guesses;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
     /*
-    Method to start a new round if the game is not active
-     */
+            Method to start a new round if the game is not active
+             */
     public void startNewRound(String wordToGuess){
         if (gameState != GameState.IN_GAME) {
             Round round = new Round(wordToGuess);
@@ -61,9 +77,18 @@ public class Game {
     }
 
     public void makeGuess(String attempt){
+        Feedback feedback = new Feedback();
         Round round = getLastRoundFromList();
-        round.guess(attempt);
+        feedback = round.guess(attempt);
+        this.guesses.add(feedback);
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return score == game.score && Objects.equals(id, game.id) && gameState == game.gameState && Objects.equals(roundList, game.roundList) && Objects.equals(guesses, game.guesses);
+    }
 }

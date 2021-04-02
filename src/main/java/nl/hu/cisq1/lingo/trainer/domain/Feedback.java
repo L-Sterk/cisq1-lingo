@@ -73,22 +73,11 @@ public class Feedback {
         return String.join("", hintList);
     }
 
-//    @Override
-//    public String toString() {
-//
-//        return markList.toString();
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Feedback feedback = (Feedback) o;
         return Objects.equals(attempt, feedback.attempt) && Objects.equals(markList, feedback.markList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(attempt, markList);
     }
 }
