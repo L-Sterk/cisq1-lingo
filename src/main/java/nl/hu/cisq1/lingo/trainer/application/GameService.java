@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.application;
 import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.springframework.stereotype.Service;
 
@@ -28,19 +29,27 @@ public class GameService{
         }
     }
 
-    public Optional<Game> getGameById(Long id) throws NotFoundException {
-        Optional<Game> game = springGameRepository.findById(id);
-                if (game.isEmpty()){
-            throw new NotFoundException("Game with id: " + id + " is not found.");
-        }else {
-            return game;
-        }
+    public Game getGameById(Long id) throws NotFoundException {
+        return springGameRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Game with id: " + id + " is not found."));
     }
 
 
-    public void startNewGame(){
+    public Game startNewGame(){
         Game game = new Game();
 
+        game.startNewRound(wordService.provideRandomWord(5));
+        springGameRepository.save(game);
 
+        return game;
+    }
+
+    public Round startNewRound(Long id) throws NotFoundException {
+        Game game = getGameById(id);
+
+        Round round = new Round(wordService.provideRandomWord(5));
+        springGameRepository.save(game);
+
+        return round;
     }
 }
