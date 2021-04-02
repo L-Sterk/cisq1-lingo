@@ -23,7 +23,7 @@ public class GameService{
     public List<Game> getAllGames() throws NotFoundException {
         List<Game> gameList = springGameRepository.findAll();
         if (gameList.isEmpty()){
-            throw new NotFoundException("No games were found");
+            throw new NotFoundException("No games were found.");
         }else{
             return gameList;
         }
@@ -37,8 +37,8 @@ public class GameService{
 
     public Game startNewGame(){
         Game game = new Game();
-
         game.startNewRound(wordService.provideRandomWord(5));
+
         springGameRepository.save(game);
 
         return game;
@@ -46,10 +46,19 @@ public class GameService{
 
     public Round startNewRound(Long id) throws NotFoundException {
         Game game = getGameById(id);
-
         Round round = new Round(wordService.provideRandomWord(5));
+
         springGameRepository.save(game);
 
         return round;
+    }
+
+    public Game makeGuess(Long id, String attempt) throws NotFoundException {
+        Game game = getGameById(id);
+        game.makeGuess(attempt);
+
+        springGameRepository.save(game);
+
+        return game;
     }
 }

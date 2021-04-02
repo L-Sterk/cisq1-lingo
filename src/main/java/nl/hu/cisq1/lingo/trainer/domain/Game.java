@@ -52,15 +52,18 @@ public class Game {
         }
     }
 
-    public void makeGuess(String attempt){
+    public Round getLastRoundFromList(){
         if (roundList.isEmpty()){
-            Round round = new Round();
-            //TODO: continue???
+            return new Round();
         }else {
-            Round round = roundList.get(roundList.size()-1);
-            round.guess(attempt);
-
+            return roundList.get(roundList.size()-1);
         }
+    }
+
+    public void makeGuess(String attempt){
+        Round round = getLastRoundFromList();
+        round.guess(attempt);
+
     }
 
 }
