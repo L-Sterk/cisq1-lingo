@@ -13,7 +13,7 @@ class RoundTest {
     @Test
     @DisplayName("If all letters are correct, the word is guessed")
     void guess() {
-        Round round = new Round(1, "STERK", GameState.IN_GAME);
+        Round round = new Round("STERK");
 
         assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT), round.guess("STAAR").getMarkList());
 //        assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT), round.guess("START").getMarkList());
