@@ -52,6 +52,30 @@ public class Round {
         return wordToGuess;
     }
 
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+    public void setWordToGuess(String wordToGuess) {
+        this.wordToGuess = wordToGuess;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     public Feedback guess(String attempt){
         List<Mark> markList = new ArrayList<>();
 

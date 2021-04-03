@@ -43,6 +43,26 @@ public class Game {
         return id;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setRoundList(List<Round> roundList) {
+        this.roundList = roundList;
+    }
+
+    public void setGuesses(List<Feedback> guesses) {
+        this.guesses = guesses;
+    }
+
     public List<Round> getRoundList() {
         return roundList;
     }
