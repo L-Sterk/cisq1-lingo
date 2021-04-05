@@ -30,7 +30,7 @@ class FeedbackTest {
         String attempt = "STERK";
         Feedback feedback = new Feedback(attempt, List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
 
-        assertTrue(feedback.isWordGuessed() == Mark.CORRECT);
+        assertTrue(feedback.isWordGuessed());
 
     }
 
@@ -40,7 +40,7 @@ class FeedbackTest {
         String attempt = "STERK";
         Feedback feedback = new Feedback(attempt, List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT));
 
-        assertTrue(feedback.isWordGuessed() == Mark.ABSENT);
+        assertFalse(feedback.isWordGuessed());
 
     }
 
@@ -50,7 +50,7 @@ class FeedbackTest {
         String attempt = "ABCDE";
         Feedback feedback = new Feedback(attempt, List.of(Mark.ILLEGAL, Mark.ILLEGAL, Mark.ILLEGAL, Mark.ILLEGAL, Mark.ILLEGAL));
 
-        assertTrue(feedback.isWordGuessed() == Mark.ILLEGAL);
+        assertTrue(feedback.isGuessInvalid());
     }
 
     @Test

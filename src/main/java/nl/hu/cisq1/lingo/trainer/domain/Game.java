@@ -21,7 +21,7 @@ public class Game {
     @Enumerated(EnumType.ORDINAL)
     private GameState gameState = GameState.END_GAME; // Set the standard state in END_GAME
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn() // TODO: fix later
     private List<Round> roundList = new ArrayList<>();
 
@@ -63,6 +63,8 @@ public class Game {
         this.guesses = guesses;
     }
 
+
+
     public List<Round> getRoundList() {
         return roundList;
     }
@@ -76,30 +78,29 @@ public class Game {
     }
 
     /*
-            Method to start a new round if the game is not active
-             */
-    public void startNewRound(String wordToGuess){
+        Method to start a new round if the game is not active
+     */
+    public void startNewRound(String wordToGuess) {
         if (gameState != GameState.IN_GAME) {
             Round round = new Round(wordToGuess);
             roundList.add(round);
             gameState = GameState.IN_GAME;
-        }else {
+        } else {
             throw new IllegalStateException("The game is still active");
         }
     }
 
-    public Round getLastRoundFromList(){
-        if (roundList.isEmpty()){
+    public Round getLastRoundFromList() {
+        if (roundList.isEmpty()) {
             return new Round();
-        }else {
-            return roundList.get(roundList.size()-1);
+        } else {
+            return roundList.get(roundList.size() - 1);
         }
     }
 
-    public void makeGuess(String attempt){
-        Feedback feedback = new Feedback();
+    public void makeGuess(String attempt) {
         Round round = getLastRoundFromList();
-        feedback = round.guess(attempt);
+        Feedback feedback = round.guess(attempt);
         this.guesses.add(feedback);
 
     }

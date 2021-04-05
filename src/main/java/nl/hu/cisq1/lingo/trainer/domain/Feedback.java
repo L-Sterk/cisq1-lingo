@@ -21,7 +21,11 @@ public class Feedback {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Mark.class)
-    private List<Mark> markList;
+    private List<Mark> markList = new ArrayList<>();
+
+    @ElementCollection
+    private List<String> hintList = new ArrayList<>();
+
 
     public Feedback(String attempt, List<Mark> markList) {
         if (attempt.length() != markList.size()) {
@@ -35,11 +39,15 @@ public class Feedback {
 
     }
 
+    public List<String> getHintList() {
+        return hintList;
+    }
+
     public List<Mark> getMarkList() {
         return markList;
     }
 
-    public Mark isWordGuessed() {
+    public Mark isWordGuessedMark() {
         for (Mark mark : markList) {
             if (mark != Mark.CORRECT) {
                 if (mark == Mark.ILLEGAL) {
@@ -52,6 +60,20 @@ public class Feedback {
         return Mark.CORRECT;
     }
 
+    public boolean isWordGuessed(){
+        return markList.stream()
+                .allMatch(e -> e.equals(Mark.CORRECT));
+    }
+
+    public boolean isGuessValid(){
+        return this.markList.stream()
+                .noneMatch(mark -> mark == Mark.ILLEGAL);
+    }
+
+    public boolean isGuessInvalid(){
+        return !isGuessValid();
+    }
+
     public String giveHint(String previousHint, String wordToGuess) {
         if (attempt.length() != markList.size()) {
             throw new InvalidFeedbackException(attempt.length(), markList.size());
@@ -59,8 +81,6 @@ public class Feedback {
 
         String[] splitWordToGuess = wordToGuess.split("");
         String[] splitPreviousHint = previousHint.split("");
-
-        List<String> hintList = new ArrayList<>();
 
         for (int i = 0; i < splitWordToGuess.length; i++) {
             if (markList.get(i) == Mark.CORRECT) {
