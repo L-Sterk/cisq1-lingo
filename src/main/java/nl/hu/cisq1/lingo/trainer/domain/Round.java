@@ -28,9 +28,6 @@ public class Round {
     @JoinColumn(name = "game") //TODO: fix later
     private Game game;
 
-    @ElementCollection
-    List<String> hintList = new ArrayList<>();
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<Feedback> feedbackList = new ArrayList<>();
 
@@ -83,10 +80,6 @@ public class Round {
         this.game = game;
     }
 
-    public List<String> getHints() {
-        return hintList;
-    }
-
     public Feedback getLastFeedback(){
         if (feedbackList.isEmpty()){
             return new Feedback();
@@ -97,10 +90,10 @@ public class Round {
 
     public Feedback guess(String attempt){
         List<Mark> markList = new ArrayList<>();
-        Feedback feedback = getLastFeedback();
+        Feedback feedback;
 
         // Check if attempt is legal
-        if (attempt == null || attempt.length() == 0 || attempt.length() != wordToGuess.length()){
+        if (attempt.length() == 0 || attempt.length() != wordToGuess.length()){
             for (int i = 0; i < wordToGuess.length(); i++) {
                 markList.add(Mark.ILLEGAL);
             }
@@ -121,6 +114,8 @@ public class Round {
             }
             markList.add(Mark.ABSENT);
         }
+        feedback = new Feedback(attempt, markList);
+        feedbackList.add(feedback);
 
         if(getLastFeedback().isWordGuessed()){
             gameState = GameState.WIN;
@@ -128,7 +123,7 @@ public class Round {
             gameState = GameState.LOSE;
         }
 
-        return new Feedback(attempt, markList);
+        return feedback;
     }
 
     @Override

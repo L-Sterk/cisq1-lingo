@@ -4,13 +4,14 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "feedback")
-public class Feedback {
+public class Feedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "feedback_id")
@@ -21,7 +22,7 @@ public class Feedback {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Mark.class)
-    private List<Mark> markList = new ArrayList<>();
+    private List<Mark> markList;
 
     @ElementCollection
     private List<String> hintList = new ArrayList<>();
@@ -61,8 +62,8 @@ public class Feedback {
     }
 
     public boolean isWordGuessed(){
-        return markList.stream()
-                .allMatch(e -> e.equals(Mark.CORRECT));
+        return this.markList.stream()
+                .allMatch(markList -> markList == Mark.CORRECT);
     }
 
     public boolean isGuessValid(){

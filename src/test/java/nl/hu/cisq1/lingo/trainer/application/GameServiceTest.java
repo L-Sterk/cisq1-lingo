@@ -108,7 +108,6 @@ class GameServiceTest {
     void startNewRound(){
         try {
             game1.startNewRound(wordService.provideRandomWord(5));
-            game1.makeGuess("STERK");
             gameService.startNewRound(1L);
 
             assertEquals(1, game1.getRoundList().size());
@@ -122,8 +121,9 @@ class GameServiceTest {
 
     @Test
     @DisplayName("Make a correct guess")
-    void makeGuess() {
+    void makeGuess() throws NotFoundException {
         game1.startNewRound(wordService.provideRandomWord(5));
+        gameService.makeGuess(anyLong(), "STERK");
 
         assertDoesNotThrow(() -> gameService.makeGuess(anyLong(), "STERK"));
     }

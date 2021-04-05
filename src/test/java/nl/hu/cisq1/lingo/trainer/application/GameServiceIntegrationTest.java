@@ -74,7 +74,7 @@ class GameServiceIntegrationTest {
             gameService.startNewRound(game.getId());
             gameService.makeGuess(game.getId(), "STERK");
 
-            assertTrue(gameService.getGameById(game.getId()).getLastRoundFromList().getLastFeedback().isWordGuessed());
+            assertTrue(gameService.getGameById(game.getId()).getLastRoundFromList().getLastFeedback().isGuessValid());
         }catch (NotFoundException nfe){
             nfe.getMessage();
         }
