@@ -1,7 +1,10 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "game")
-public class Game {
+public class Game implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "game_id")
