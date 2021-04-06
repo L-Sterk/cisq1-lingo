@@ -95,27 +95,17 @@ class GameServiceTest {
     @Test
     @DisplayName("Start a new Game")
     void startNewGame() {
-        // Before starting a new game
-        assertEquals(0, game1.getRoundList().size());
-
-        game1 = gameService.startNewGame();
-        // After starting a new game
-        assertEquals(1, game1.getRoundList().size());
+        Game game = gameService.startNewGame();
+        verify(springGameRepository, times(1)).save(game);
     }
 
     @Test
     @DisplayName("Start a new Round for game1")
-    void startNewRound(){
-        try {
-            game1.startNewRound(wordService.provideRandomWord(5));
-            gameService.startNewRound(1L);
+    void startNewRound() {
+        game1.startNewRound(wordService.provideRandomWord(5));
 
-            assertEquals(1, game1.getRoundList().size());
-            assertEquals(GameState.IN_GAME, game1.getLastRoundFromList().getGameState());
-        } catch (NotFoundException nfe) {
-            nfe.getMessage();
-        }
-
+        assertEquals(1, game1.getRoundList().size());
+        assertEquals(GameState.IN_GAME, game1.getLastRoundFromList().getGameState());
 
     }
 
@@ -139,8 +129,17 @@ class GameServiceTest {
             nfe.getMessage();
         }
 
-
         assertDoesNotThrow(() -> gameService.makeGuess(anyLong(), "STUUR"));
     }
+
+    @Test
+    @DisplayName("Make a winning guess, gamestate -> WIN")
+    void makeWinningGuess() {
+        game1.startNewRound("STERK");
+        game1.makeGuess("STERK");
+
+        assertEquals(GameState.WIN, game1.getLastRoundFromList().getGameState());
+    }
+
 
 }

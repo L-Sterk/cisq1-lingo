@@ -7,9 +7,7 @@ import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.GameState;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import nl.hu.cisq1.lingo.words.application.WordService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -26,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Import(CiTestConfiguration.class)
 class GameServiceIntegrationTest {
-    static Game game = new Game();
+    Game game = new Game();
 
     @Autowired
     GameService gameService;
@@ -40,12 +38,12 @@ class GameServiceIntegrationTest {
     @BeforeEach
     void beforeEach() {
         WordService wordService = mock(WordService.class);
-        when(wordService.provideRandomWord(anyInt())).thenReturn("STERK");
+        when(wordService.provideRandomWord(5)).thenReturn("STERK");
 
-
-        game = this.gameService.startNewGame();
         gameService = new GameService(wordService, springGameRepository);
+        game = this.gameService.startNewGame();
     }
+
 
     @Test
     @Transactional
@@ -68,6 +66,19 @@ class GameServiceIntegrationTest {
 
     @Test
     @Transactional
+    @DisplayName("Check if a new Round is IN_GAME")
+    void startNewRound() {
+        try {
+            gameService.startNewRound(game.getId());
+
+            assertEquals(gameService.getGameById(game.getId()).getLastRoundFromList().getGameState(), GameState.IN_GAME);
+        }catch (NotFoundException nfe){
+            nfe.getMessage();
+        }
+    }
+
+    @Test
+    @Transactional
     @DisplayName("Check if the guess attempt is valid")
     void validGuess(){
         try {
@@ -82,21 +93,13 @@ class GameServiceIntegrationTest {
 
     @Test
     @Transactional
-    @DisplayName("Check if a new Round is IN_GAME")
-    void startNewRound() {
+    @DisplayName("Check if the attempt is invalid")
+    void invalidGuess() {
         try {
             gameService.startNewRound(game.getId());
-
-            assertEquals(gameService.getGameById(game.getId()).getLastRoundFromList().getGameState(), GameState.IN_GAME);
         }catch (NotFoundException nfe){
             nfe.getMessage();
         }
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("Check if the attempt is invalid")
-    void invalidGuess() {
         assertThrows(InvalidFeedbackException.class,
                 () -> gameService.makeGuess(game.getId(), "STERKER"));
     }

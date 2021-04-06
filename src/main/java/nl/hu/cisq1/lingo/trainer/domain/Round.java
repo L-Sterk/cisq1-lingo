@@ -24,9 +24,7 @@ public class Round {
     @Enumerated(EnumType.ORDINAL)
     private GameState gameState;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "game") //TODO: fix later
-    private Game game;
+    //private Game game;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Feedback> feedbackList = new ArrayList<>();
@@ -72,12 +70,8 @@ public class Round {
         this.gameState = gameState;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
+    public List<Feedback> getFeedbackList() {
+        return feedbackList;
     }
 
     public Feedback getLastFeedback(){
@@ -131,6 +125,6 @@ public class Round {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Round round = (Round) o;
-        return roundNumber == round.roundNumber && Objects.equals(id, round.id) && Objects.equals(wordToGuess, round.wordToGuess) && gameState == round.gameState && Objects.equals(game, round.game);
+        return roundNumber == round.roundNumber && Objects.equals(id, round.id) && Objects.equals(wordToGuess, round.wordToGuess) && gameState == round.gameState;
     }
 }

@@ -37,6 +37,15 @@ public class GameService{
 
     public Game startNewGame(){
         Game game = new Game();
+
+        springGameRepository.save(game);
+
+        return game;
+    }
+
+    public Game startNewRound(Long id) throws NotFoundException {
+        Game game = getGameById(id);
+        //Round round = new Round(wordService.provideRandomWord(5));
         game.startNewRound(wordService.provideRandomWord(5));
 
         springGameRepository.save(game);
@@ -44,21 +53,10 @@ public class GameService{
         return game;
     }
 
-    public Round startNewRound(Long id) throws NotFoundException {
-        Game game = getGameById(id);
-        Round round = new Round(wordService.provideRandomWord(5));
-
-        springGameRepository.save(game);
-
-        return round;
-    }
-
-    public Game makeGuess(Long id, String attempt) throws NotFoundException {
+    public void makeGuess(Long id, String attempt) throws NotFoundException {
         Game game = getGameById(id);
         game.makeGuess(attempt);
 
         springGameRepository.save(game);
-
-        return game;
     }
 }

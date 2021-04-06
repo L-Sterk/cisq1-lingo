@@ -22,7 +22,6 @@ public class Game {
     private GameState gameState = GameState.END_GAME; // Set the standard state in END_GAME
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn() // TODO: fix later
     private List<Round> roundList = new ArrayList<>();
 
     @Transient
@@ -77,9 +76,12 @@ public class Game {
         this.gameState = gameState;
     }
 
-    /*
-        Method to start a new round if the game is not active
-     */
+
+    public void score(int numberOfAttempts) {
+        score += + 5 * (5 - numberOfAttempts) + 5;
+    }
+
+    //Method to start a new round if the game is not active
     public void startNewRound(String wordToGuess) {
         if (gameState != GameState.IN_GAME) {
             Round round = new Round(wordToGuess);
@@ -90,6 +92,7 @@ public class Game {
         }
     }
 
+    // Method to get the active round
     public Round getLastRoundFromList() {
         if (roundList.isEmpty()) {
             return new Round();
@@ -98,13 +101,20 @@ public class Game {
         }
     }
 
+    // Make a guess
     public void makeGuess(String attempt) {
         Round round = getLastRoundFromList();
+        round.guess(attempt);
+
         Feedback feedback = round.guess(attempt);
         this.guesses.add(feedback);
 
-    }
+        if (getLastRoundFromList().getLastFeedback().isWordGuessed()){
+            score(getLastRoundFromList().getFeedbackList().size());
+                gameState = GameState.END_GAME;
+            }
 
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
