@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,6 +21,13 @@ class FeedbackTest {
                 Arguments.of("STERK", "START", "ST...", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT), "ST.R."),
                 Arguments.of("STERK", "STERF", "ST.R.", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT), "STER."),
                 Arguments.of("STERK", "STERK", "STER.", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "STERK")
+        );
+    }
+
+    static Stream<Arguments> provideInvalidHint() {
+        return Stream.of(
+                Arguments.of("STERK", "STAARRR", "S....", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT), "ST..."),
+                Arguments.of("STERK", "STARTTT", "ST...", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT), "ST.R.")
         );
     }
 
@@ -57,8 +65,7 @@ class FeedbackTest {
     @DisplayName("The length of the Feedback does not match the length of the attempt")
     void invalidFeedback() {
         String attempt = "STERK";
-        assertThrows(
-                InvalidFeedbackException.class,
+        assertThrows(InvalidFeedbackException.class,
                 () -> new Feedback(attempt, List.of(Mark.CORRECT))
         );
     }
@@ -71,4 +78,13 @@ class FeedbackTest {
 
         assertEquals(nextHint, feedback.giveHint(previousHint, wordToGuess));
     }
+
+//    @ParameterizedTest
+//    @MethodSource("provideInvalidHint")
+//    @DisplayName("Test method for giving Hints")
+//    void giveInvalidHintTest(String wordToGuess, String attempt, String previousHint, List<Mark> marksList, String nextHint) {
+////        Feedback feedback = new Feedback(attempt, marksList);
+//
+//        assertThrows(InvalidFeedbackException.class, ()-> new Feedback(attempt, marksList));
+//    }
 }

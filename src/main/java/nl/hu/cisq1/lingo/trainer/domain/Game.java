@@ -33,39 +33,13 @@ public class Game implements Serializable {
     public Game() {
     }
 
-    public Game(int score) {
-        this.score = 0;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public GameState getGameState() {
         return gameState;
     }
-
-    public void setRoundList(List<Round> roundList) {
-        this.roundList = roundList;
-    }
-
-    public void setGuesses(List<Feedback> guesses) {
-        this.guesses = guesses;
-    }
-
-
 
     public List<Round> getRoundList() {
         return roundList;
@@ -117,12 +91,5 @@ public class Game implements Serializable {
                 gameState = GameState.END_GAME;
             }
 
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Game game = (Game) o;
-        return score == game.score && Objects.equals(id, game.id) && gameState == game.gameState && Objects.equals(roundList, game.roundList) && Objects.equals(guesses, game.guesses);
     }
 }

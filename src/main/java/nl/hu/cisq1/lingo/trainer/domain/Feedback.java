@@ -48,18 +48,18 @@ public class Feedback implements Serializable {
         return markList;
     }
 
-    public Mark isWordGuessedMark() {
-        for (Mark mark : markList) {
-            if (mark != Mark.CORRECT) {
-                if (mark == Mark.ILLEGAL) {
-                    return Mark.ILLEGAL;
-                } else {
-                    return Mark.ABSENT;
-                }
-            }
-        }
-        return Mark.CORRECT;
-    }
+//    public Mark isWordGuessedMark() {
+//        for (Mark mark : markList) {
+//            if (mark != Mark.CORRECT) {
+//                if (mark == Mark.ILLEGAL) {
+//                    return Mark.ILLEGAL;
+//                } else {
+//                    return Mark.ABSENT;
+//                }
+//            }
+//        }
+//        return Mark.CORRECT;
+//    }
 
     public boolean isWordGuessed(){
         return this.markList.stream()
@@ -76,10 +76,6 @@ public class Feedback implements Serializable {
     }
 
     public String giveHint(String previousHint, String wordToGuess) {
-        if (attempt.length() != markList.size()) {
-            throw new InvalidFeedbackException(attempt.length(), markList.size());
-        }
-
         String[] splitWordToGuess = wordToGuess.split("");
         String[] splitPreviousHint = previousHint.split("");
 
@@ -92,13 +88,5 @@ public class Feedback implements Serializable {
         }
 
         return String.join("", hintList);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Feedback feedback = (Feedback) o;
-        return Objects.equals(attempt, feedback.attempt) && Objects.equals(markList, feedback.markList);
     }
 }

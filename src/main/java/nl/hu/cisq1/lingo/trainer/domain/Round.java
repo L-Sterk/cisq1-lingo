@@ -25,8 +25,6 @@ public class Round implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private GameState gameState;
 
-    //private Game game;
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<Feedback> feedbackList = new ArrayList<>();
 
@@ -39,13 +37,6 @@ public class Round implements Serializable {
     public Round() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public GameState getGameState() {
         return gameState;
@@ -53,22 +44,6 @@ public class Round implements Serializable {
 
     public String getWordToGuess() {
         return wordToGuess;
-    }
-
-    public int getRoundNumber() {
-        return roundNumber;
-    }
-
-    public void setRoundNumber(int roundNumber) {
-        this.roundNumber = roundNumber;
-    }
-
-    public void setWordToGuess(String wordToGuess) {
-        this.wordToGuess = wordToGuess;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
     }
 
     public List<Feedback> getFeedbackList() {
@@ -119,13 +94,5 @@ public class Round implements Serializable {
         }
 
         return feedback;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Round round = (Round) o;
-        return roundNumber == round.roundNumber && Objects.equals(id, round.id) && Objects.equals(wordToGuess, round.wordToGuess) && gameState == round.gameState;
     }
 }
