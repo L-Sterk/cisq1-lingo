@@ -7,13 +7,15 @@ import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class GameService{
-    private WordService wordService;
-    private SpringGameRepository springGameRepository;
+    private final WordService wordService;
+    private final SpringGameRepository springGameRepository;
 
     public GameService(WordService wordService, SpringGameRepository springGameRepository) {
         this.wordService = wordService;
@@ -53,10 +55,11 @@ public class GameService{
         return game;
     }
 
-    public void makeGuess(Long id, String attempt) throws NotFoundException {
+    public Game makeGuess(Long id, String attempt) throws NotFoundException {
         Game game = getGameById(id);
         game.makeGuess(attempt);
 
         springGameRepository.save(game);
+        return game;
     }
 }

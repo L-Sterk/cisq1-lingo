@@ -1,14 +1,15 @@
 package nl.hu.cisq1.lingo.trainer.presentation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.annotate.JsonIgnore;
 import nl.hu.cisq1.lingo.CiTestConfiguration;
 import nl.hu.cisq1.lingo.trainer.application.GameService;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.presentation.DTO.GuessDTO;
 import nl.hu.cisq1.lingo.words.application.WordService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.checkerframework.checker.units.qual.A;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,62 +44,71 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
-
 @SpringBootTest
-@Transactional
 @Import(CiTestConfiguration.class)
 @AutoConfigureMockMvc
 class GameControllerIntegrationTest {
-    private Game game = new Game();
-    private Long game_id;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     GameController gameController;
 
     @Autowired
-    GameService gameService;
-
-    @Autowired
-    @MockBean
-    SpringGameRepository springGameRepository;
-
-    @Autowired
     WordService wordService;
 
-    @Autowired
-    private MockMvc mockMvc;
+    Long game_id;
 
     @BeforeEach
     void beforeEach() {
-        WordService wordService = mock(WordService.class);
-        when(wordService.provideRandomWord(5)).thenReturn("STERK");
+        game_id = gameController.startNewGame().getGame_id();
+    }
 
-        //when(game.getId()).thenReturn(anyLong());
+    @Test
+    @DisplayName("Test to start a game")
+    void startNewGame() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/lingoTrainer/startGame");
 
-        gameService = new GameService(wordService, springGameRepository);
-        game = this.gameService.startNewGame();
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.game_id", is(notNullValue())))
+                .andExpect(jsonPath("$.gameState", is("END_GAME")))
+                ;
+    }
 
-        game_id = game.getId();
+    @Test
+    @DisplayName("Test to start a new round")
+    void startNewRound() throws Exception{
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/lingoTrainer/"+ game_id +"/startRound");
+
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.game_id", is(notNullValue())))
+                .andExpect(jsonPath("$.gameState", is("IN_GAME")));
     }
 
 //    @Test
-//    void startNewGame() throws Exception {
+//    @DisplayName("Test to make a guess")
+//    void makeGuess() throws Exception {
+//
+//        GuessDTO guessDTO = new GuessDTO();
+//        guessDTO.attempt = "STERK";
+//        String body = new ObjectMapper().writeValueAsString(guessDTO);
+//
+//
+//
 //        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .post("/lingoTrainer/startGame");
+//                .post("/lingoTrainer/"+ game_id +"/guess")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(body);
 //
 //        mockMvc.perform(requestBuilder)
 //                .andExpect(status().isOk())
-//                ;
+//                .andExpect(jsonPath("$.id", notNullValue()));
+//
 //
 //    }
-
-//    @Test
-//    void cannotStartNewGame() throws Exception{
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .post("/lingoTrainer/startGame");
-//        mockMvc.perform(requestBuilder)
-//                .andExpect(status().isNotFound());
-//    }
-
-
 }

@@ -48,19 +48,6 @@ public class Feedback implements Serializable {
         return markList;
     }
 
-//    public Mark isWordGuessedMark() {
-//        for (Mark mark : markList) {
-//            if (mark != Mark.CORRECT) {
-//                if (mark == Mark.ILLEGAL) {
-//                    return Mark.ILLEGAL;
-//                } else {
-//                    return Mark.ABSENT;
-//                }
-//            }
-//        }
-//        return Mark.CORRECT;
-//    }
-
     public boolean isWordGuessed(){
         return this.markList.stream()
                 .allMatch(markList -> markList == Mark.CORRECT);

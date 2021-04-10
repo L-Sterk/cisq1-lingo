@@ -6,7 +6,11 @@ public class GuessDTO {
     @NotNull
     public String attempt;
 
-    public void setAttempt(String attempt){
-        this.attempt = attempt;
+    public String getAttempt() {
+        return attempt;
     }
+
+    //    public void setAttempt(String attempt){
+//        this.attempt = attempt;
+//    }
 }
