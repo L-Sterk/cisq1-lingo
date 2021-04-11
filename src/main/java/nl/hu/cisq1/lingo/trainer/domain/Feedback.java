@@ -49,7 +49,7 @@ public class Feedback implements Serializable {
 
     public boolean isWordGuessed() {
         return this.markList.stream()
-                .allMatch(markList -> markList == Mark.CORRECT);
+                .allMatch(mark -> mark == Mark.CORRECT);
     }
 
     public boolean isGuessValid() {
