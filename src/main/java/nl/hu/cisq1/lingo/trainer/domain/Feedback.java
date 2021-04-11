@@ -35,6 +35,7 @@ public class Feedback implements Serializable {
         this.markList = markList;
     }
 
+    // JPA Constructor
     public Feedback() {
 
     }

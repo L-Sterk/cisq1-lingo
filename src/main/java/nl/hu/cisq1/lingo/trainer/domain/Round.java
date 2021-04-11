@@ -30,6 +30,7 @@ public class Round implements Serializable {
 
     }
 
+    // JPA Constructor
     public Round() {
     }
 

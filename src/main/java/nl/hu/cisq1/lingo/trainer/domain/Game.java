@@ -26,6 +26,7 @@ public class Game implements Serializable {
     @Transient
     private List<Feedback> guesses = new ArrayList<>();
 
+    // JPA Constructor
     public Game() {
     }
 
