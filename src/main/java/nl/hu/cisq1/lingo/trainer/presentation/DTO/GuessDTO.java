@@ -9,8 +9,4 @@ public class GuessDTO {
     public String getAttempt() {
         return attempt;
     }
-
-    //    public void setAttempt(String attempt){
-//        this.attempt = attempt;
-//    }
 }

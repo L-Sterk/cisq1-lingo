@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "feedback")
@@ -48,17 +47,17 @@ public class Feedback implements Serializable {
         return markList;
     }
 
-    public boolean isWordGuessed(){
+    public boolean isWordGuessed() {
         return this.markList.stream()
                 .allMatch(markList -> markList == Mark.CORRECT);
     }
 
-    public boolean isGuessValid(){
+    public boolean isGuessValid() {
         return this.markList.stream()
                 .noneMatch(mark -> mark == Mark.ILLEGAL);
     }
 
-    public boolean isGuessInvalid(){
+    public boolean isGuessInvalid() {
         return !isGuessValid();
     }
 

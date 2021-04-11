@@ -4,24 +4,19 @@ import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.GameState;
-import nl.hu.cisq1.lingo.trainer.domain.Mark;
-import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import javax.transaction.Transactional;
-import java.security.InvalidAlgorithmParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,7 +73,7 @@ class GameServiceTest {
 
     @Test
     @DisplayName("Check if the exception is thrown when the gamelist is empty")
-    void getAllGamesEmpty(){
+    void getAllGamesEmpty() {
         // Set an empty list to check the exception
         when(springGameRepository.findAll()).thenReturn(List.of());
 

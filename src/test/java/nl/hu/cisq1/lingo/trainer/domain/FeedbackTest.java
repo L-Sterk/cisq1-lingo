@@ -3,7 +3,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -79,12 +78,11 @@ class FeedbackTest {
         assertEquals(nextHint, feedback.giveHint(previousHint, wordToGuess));
     }
 
-//    @ParameterizedTest
-//    @MethodSource("provideInvalidHint")
-//    @DisplayName("Test method for giving Hints")
-//    void giveInvalidHintTest(String wordToGuess, String attempt, String previousHint, List<Mark> marksList, String nextHint) {
-////        Feedback feedback = new Feedback(attempt, marksList);
-//
-//        assertThrows(InvalidFeedbackException.class, ()-> new Feedback(attempt, marksList));
-//    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidHint")
+    @DisplayName("Test method for invalid attempt")
+    void giveInvalidHintTest(String wordToGuess, String attempt, String previousHint, List<Mark> marksList, String nextHint) {
+
+        assertThrows(InvalidFeedbackException.class, ()-> new Feedback(attempt, marksList));
+    }
 }

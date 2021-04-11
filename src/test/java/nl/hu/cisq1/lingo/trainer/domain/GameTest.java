@@ -15,15 +15,15 @@ class GameTest {
     void startNewRound() {
         this.game.startNewRound(this.round.getWordToGuess());
         this.game.setGameState(GameState.END_GAME); // Round must have state: END_GAME
-                                                    // before a new round starts
+        // before a new round starts
 
         this.game.startNewRound("APPEL");
         this.game.setGameState(GameState.END_GAME); // Round must have state: END_GAME
-                                                    // before a new round starts
+        // before a new round starts
 
         this.game.startNewRound("BROOD");
         this.game.setGameState(GameState.END_GAME); // Round must have state: END_GAME
-                                                    // before a new round starts
+        // before a new round starts
 
         assertEquals(3, this.game.getRoundList().size());
     }

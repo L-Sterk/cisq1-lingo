@@ -3,17 +3,15 @@ package nl.hu.cisq1.lingo.trainer.application;
 import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
-import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
-public class GameService{
+public class GameService {
     private final WordService wordService;
     private final SpringGameRepository springGameRepository;
 
@@ -24,9 +22,9 @@ public class GameService{
 
     public List<Game> getAllGames() throws NotFoundException {
         List<Game> gameList = springGameRepository.findAll();
-        if (gameList.isEmpty()){
+        if (gameList.isEmpty()) {
             throw new NotFoundException("No games were found.");
-        }else{
+        } else {
             return gameList;
         }
     }
@@ -37,7 +35,7 @@ public class GameService{
     }
 
 
-    public Game startNewGame(){
+    public Game startNewGame() {
         Game game = new Game();
 
         springGameRepository.save(game);
@@ -47,7 +45,6 @@ public class GameService{
 
     public Game startNewRound(Long id) throws NotFoundException {
         Game game = getGameById(id);
-        //Round round = new Round(wordService.provideRandomWord(5));
         game.startNewRound(wordService.provideRandomWord(5));
 
         springGameRepository.save(game);

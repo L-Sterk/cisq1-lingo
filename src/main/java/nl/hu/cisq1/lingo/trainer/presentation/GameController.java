@@ -5,10 +5,8 @@ import nl.hu.cisq1.lingo.trainer.application.GameService;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.GameDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.GuessDTO;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 
 @RestController
 @RequestMapping("/lingoTrainer")

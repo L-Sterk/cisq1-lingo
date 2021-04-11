@@ -4,14 +4,10 @@ import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.application.GameService;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.GuessDTO;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -39,13 +35,13 @@ class GameControllerTest {
 
     @Test
     @DisplayName("Start a new round")
-    void startRound(){
+    void startRound() {
         try {
             when(gameService.startNewRound(anyLong())).thenReturn(game);
 
             assertNotNull(gameController.startNewRound(anyLong()));
 
-        }catch (NotFoundException nfe){
+        } catch (NotFoundException nfe) {
             nfe.getMessage();
         }
     }

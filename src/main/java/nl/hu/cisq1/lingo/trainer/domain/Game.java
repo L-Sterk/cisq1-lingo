@@ -1,14 +1,10 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import net.minidev.json.annotate.JsonIgnore;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "game")
@@ -55,7 +51,7 @@ public class Game implements Serializable {
 
 
     public void score(int numberOfAttempts) {
-        score += + 5 * (5 - numberOfAttempts) + 5;
+        score += +5 * (5 - numberOfAttempts) + 5;
     }
 
     //Method to start a new round if the game is not active
@@ -86,10 +82,11 @@ public class Game implements Serializable {
         Feedback feedback = round.guess(attempt);
         this.guesses.add(feedback);
 
-        if (getLastRoundFromList().getLastFeedback().isWordGuessed()){
+        if (getLastRoundFromList().getLastFeedback().isWordGuessed()) {
             score(getLastRoundFromList().getFeedbackList().size());
-                gameState = GameState.END_GAME;
-            }
+            // Set gameState
+            gameState = GameState.END_GAME;
+        }
 
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import javax.transaction.Transactional;
 
 
-
 import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,7 +71,7 @@ class GameServiceIntegrationTest {
             gameService.startNewRound(game.getId());
 
             assertEquals(gameService.getGameById(game.getId()).getLastRoundFromList().getGameState(), GameState.IN_GAME);
-        }catch (NotFoundException nfe){
+        } catch (NotFoundException nfe) {
             nfe.getMessage();
         }
     }
@@ -80,13 +79,13 @@ class GameServiceIntegrationTest {
     @Test
     @Transactional
     @DisplayName("Check if the guess attempt is valid")
-    void validGuess(){
+    void validGuess() {
         try {
             gameService.startNewRound(game.getId());
             gameService.makeGuess(game.getId(), "STERK");
 
             assertTrue(gameService.getGameById(game.getId()).getLastRoundFromList().getLastFeedback().isGuessValid());
-        }catch (NotFoundException nfe){
+        } catch (NotFoundException nfe) {
             nfe.getMessage();
         }
     }
@@ -97,7 +96,7 @@ class GameServiceIntegrationTest {
     void invalidGuess() {
         try {
             gameService.startNewRound(game.getId());
-        }catch (NotFoundException nfe){
+        } catch (NotFoundException nfe) {
             nfe.getMessage();
         }
         assertThrows(InvalidFeedbackException.class,

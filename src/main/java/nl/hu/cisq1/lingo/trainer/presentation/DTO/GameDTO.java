@@ -3,7 +3,7 @@ package nl.hu.cisq1.lingo.trainer.presentation.DTO;
 import nl.hu.cisq1.lingo.trainer.domain.GameState;
 
 public class GameDTO {
-    private  Long game_id;
+    private Long game_id;
     private int score;
     private GameState gameState;
 

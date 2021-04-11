@@ -18,9 +18,7 @@ class RoundTest {
         Round round = new Round("STERK");
 
         assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT), round.guess("STAAR").getMarkList());
-//        assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT), round.guess("START").getMarkList());
         assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT), round.guess("STERF").getMarkList());
         assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), round.guess("STERK").getMarkList());
-
     }
 }
