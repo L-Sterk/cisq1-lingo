@@ -70,7 +70,7 @@ class GameServiceIntegrationTest {
         try {
             gameService.startNewRound(game.getId());
 
-            assertEquals(gameService.getGameById(game.getId()).getLastRoundFromList().getGameState(), GameState.IN_GAME);
+            assertEquals(GameState.IN_GAME, gameService.getGameById(game.getId()).getLastRoundFromList().getGameState());
         } catch (NotFoundException nfe) {
             nfe.getMessage();
         }
